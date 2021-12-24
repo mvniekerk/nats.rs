@@ -725,8 +725,11 @@ impl KeyValueStore {
 
     /// Returns an iterator which iterates over each entry as they happen.
     pub fn watch(&self) -> io::Result<Watch> {
-        let subject = ">";
+        self.watch_subject(">")
+    }
 
+    /// Returns an iterator which iterates over each entry as they happen for a subject
+    pub fn watch_subject(&self, subject: &str) -> io::Result<Watch> {
         let subscription = self.context.subscribe_with_options(
             subject,
             &SubscribeOptions::ordered()
